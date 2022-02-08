@@ -19,7 +19,7 @@ from users.views import ProfileView
 
 urlpatterns = [
     path('news/', include('news.urls')),
+    path('users/', include('users.urls')),
     path('admin/', admin.site.urls), 
     path('users/', include('django.contrib.auth.urls')),
-    path('user/<int:pk>', ProfileView.as_view(), name="userprofile"),
 ]
