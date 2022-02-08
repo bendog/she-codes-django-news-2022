@@ -11,4 +11,7 @@
             <h4>{{ story.pub_date }}</h4>
         </div>
     </a>
+    {% if story.author == request.user %}
+        <a href="{% url 'news:deleteStory' story.id %}">delete</a>
+    {% endif %}
 </div>
