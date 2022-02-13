@@ -20,4 +20,11 @@
 
 </div>
 
+<div>
+    <ul>
+    {% for story in user.newsstory_set.all %}
+        <li><a href="{% url 'news:story' story.id %}">{{story.title}}</a></li>
+    {% endfor %}
+    </ul>
+</div>
 {% endblock content %}
