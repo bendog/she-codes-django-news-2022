@@ -9,6 +9,7 @@ class StoryForm(ModelForm):
         model = NewsStory
         fields = ["title", "pub_date", "content"]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['pub_date'].initial = timezone.now().strftime("%Y-%m-%dT%H:%M")
+    # def __init__(self, *args, **kwargs):
+        # super().__init__(*args, **kwargs)
+        # self.fields['pub_date'].initial = timezone.now
+        # self.fields['pub_date'].initial = timezone.now().strftime("%Y-%m-%dT%H:%M")

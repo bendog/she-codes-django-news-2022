@@ -1,5 +1,10 @@
+import datetime
+from urllib import parse
+from zoneinfo import ZoneInfo
+from django.conf import settings
 from django.views import generic
 from django.urls import reverse_lazy
+from django.utils import timezone
 from .models import NewsStory
 from .forms import StoryForm
 
@@ -31,3 +36,9 @@ class AddStoryView(generic.CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        tz_name = self.request.COOKIES.get('timezone') or settings.TIMEZONE
+        initial['pub_date'] = datetime.datetime.now(ZoneInfo(parse.unquote(tz_name))).strftime("%Y-%m-%dT%H:%M")
+        return initial

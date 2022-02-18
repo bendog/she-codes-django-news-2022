@@ -14,4 +14,9 @@
     <a href="{% url 'users:createAccount' %}">Create an account</a>
 </div>
 
+<script>
+    const timeZoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.cookie = 'timezone=' + encodeURIComponent(timeZoneName) + '; path=/';
+</script>
+
 {% endblock %}
