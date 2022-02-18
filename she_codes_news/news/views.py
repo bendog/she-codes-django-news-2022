@@ -1,12 +1,19 @@
 import datetime
 from urllib import parse
 from zoneinfo import ZoneInfo
+
 from django.conf import settings
-from django.views import generic
 from django.urls import reverse_lazy
-from django.utils import timezone
-from .models import NewsStory
+from django.views import generic
+
 from .forms import StoryForm
+from .models import NewsStory
+
+
+def get_tz_name(request):
+    if request.COOKIES.get('timezone'):
+        return parse.unquote(request.COOKIES.get('timezone'))
+    return settings.TIME_ZONE 
 
 
 class IndexView(generic.ListView):
@@ -39,6 +46,6 @@ class AddStoryView(generic.CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        tz_name = self.request.COOKIES.get('timezone') or settings.TIMEZONE
-        initial['pub_date'] = datetime.datetime.now(ZoneInfo(parse.unquote(tz_name))).strftime("%Y-%m-%dT%H:%M")
+        tz_name = get_tz_name(self.request)
+        initial['pub_date'] = datetime.datetime.now(ZoneInfo(tz_name)).strftime("%Y-%m-%dT%H:%M")
         return initial
