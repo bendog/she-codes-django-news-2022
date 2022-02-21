@@ -1,11 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-# Create your views here.
-
-from django.contrib.auth import get_user_model
 
 from .forms import CustomUserCreationForm
+
+# Create your views here.
+
+
 
 
 USER_MODEL = get_user_model()

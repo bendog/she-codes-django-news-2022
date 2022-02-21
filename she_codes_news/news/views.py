@@ -1,7 +1,19 @@
-from django.views import generic
+import datetime
+from urllib import parse
+from zoneinfo import ZoneInfo
+
+from django.conf import settings
 from django.urls import reverse_lazy
-from .models import NewsStory
+from django.views import generic
+
 from .forms import StoryForm
+from .models import NewsStory
+
+
+def get_tz_name(request):
+    if request.COOKIES.get('timezone'):
+        return parse.unquote(request.COOKIES.get('timezone'))
+    return settings.TIME_ZONE 
 
 
 class IndexView(generic.ListView):
@@ -31,3 +43,9 @@ class AddStoryView(generic.CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        tz_name = get_tz_name(self.request)
+        initial['pub_date'] = datetime.datetime.now(ZoneInfo(tz_name)).strftime("%Y-%m-%dT%H:%M")
+        return initial
